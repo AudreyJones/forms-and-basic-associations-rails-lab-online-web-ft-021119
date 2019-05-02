@@ -1,3 +1,4 @@
+require 'pry'
 class Song < ActiveRecord::Base
   belongs_to :artist
   belongs_to :genre
@@ -20,10 +21,18 @@ class Song < ActiveRecord::Base
    end
 
    def note_contents=(content)
-     self.note = Note.find_or_create_by(content: content)
+    content.each do |content|
+     self.notes << Note.find_or_create_by(content: content)
+    end
+    self.save
+    # binding.pry
    end
  
    def note_contents
-      self.note ? self.note.content : nil
+      if self.notes != nil
+      self.notes.map do |note|
+        note.content
+      end
+    end
    end
 end
