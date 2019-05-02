@@ -16,7 +16,10 @@ class SongsController < ApplicationController
     # binding.pry
     @song = Song.new(song_params)
     genre = Genre.find_or_create_by(name: params[:song][:genre_name])
+    artist = Artist.find_or_create_by(name: params[:song][:artist_name])
+
     if @song.save
+      # binding.pry
       redirect_to @song
     else
       render :new
